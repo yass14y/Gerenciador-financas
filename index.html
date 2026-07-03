@@ -88,9 +88,87 @@
         #saida {
             margin-top: 25px;
             border-top: 2px solid #f1f2f6;
-            padding-top: 20px;
         }
 
         .resultado-item {
             display: flex;
-            justify-content: space-between
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 16px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .resultado-item:last-child {
+            border-bottom: none;
+        }
+
+        .label-categoria {
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* Cores e estilos para cada categoria */
+        .valor-categoria {
+            font-weight: 700;
+        }
+        .necessidades { color: #e74c3c; }
+        .desejos { color: #f39c12; }
+        .investimentos { color: #2ecc71; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerenciador 50/30/20</h1>
+        
+        <div class="form-group">
+            <label for="valor">Valor Total (R$)</label>    
+            <input type="number" id="valor" placeholder="Ex: 2000" step="0.01">
+        </div>
+        
+        <button onclick="calcular()">Calcular Divisão</button>
+
+        <div id="saida"></div>
+    </div>
+
+     <script>
+        function formatarMoeda(valor) {
+            // Formata o número no padrão de moeda brasileiro (R$ 0,00)
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function calcular() {
+            const valorInput = document.getElementById('valor').value;
+            const valor = parseFloat(valorInput);
+            const saida = document.getElementById('saida');
+
+            if (isNaN(valor) || valor <= 0) {
+                alert('Por favor, insira um número válido e maior que zero.');
+                saida.innerHTML = ''; // Limpa a tela se o valor for inválido
+                return;
+            }
+
+            const necessidades = valor * 0.5;
+            const desejos = valor * 0.3;
+            const investimentos = valor * 0.2;
+
+            // Exibição corrigida e perfeitamente alinhada
+            saida.innerHTML = `
+               <div class="resultado-item">
+                   <span class="label-categoria">Necessidades (50%):</span>
+                   <span class="valor-categoria necessidades">${formatarMoeda(necessidades)}</span>
+               </div>
+               <div class="resultado-item">
+                   <span class="label-categoria">Desejos (30%):</span>
+                   <span class="valor-categoria desejos">${formatarMoeda(desejos)}</span>
+               </div>
+               <div class="resultado-item">
+                   <span class="label-categoria">Investimentos (20%):</span>
+                   <span class="valor-categoria investimentos">${formatarMoeda(investimentos)}</span>
+               </div>
+            `;
+        }
+     </script>  
+</body>
+</html>
